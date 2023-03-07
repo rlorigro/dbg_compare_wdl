@@ -1,0 +1,6 @@
+@HD	VN:1.6	SO:coordinate
+@SQ	SN:chr5_ref	LN:5001
+@SQ	SN:chr3_ref	LN:2737
+@PG	ID:minimap2	PN:minimap2	VN:2.24-r1122	CL:minimap2 -t 1 --eqx -x map-ont -n 3 -a -K 4g -k 17 -I 8g --secondary=no -Y /mnt/miniwdl_task_container/work/_miniwdl_inputs/0/test_reference.fasta /mnt/miniwdl_task_container/work/_miniwdl_inputs/0/test_query.fasta
+@PG	ID:samtools	PN:samtools	PP:minimap2	VN:1.16.1	CL:samtools sort -m 4G -o alignment.bam -O BAM -@ 1
+@PG	ID:samtools.1	PN:samtools	PP:samtools	VN:1.10	CL:samtools view -H /home/ryan/code/test_dbg_wdl/data/alignment.bam

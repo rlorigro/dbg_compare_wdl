@@ -1,6 +1,9 @@
 from pysam import AlignmentFile,AlignmentHeader
+import pysam
+
 import google.auth.transport.requests
 import google.auth
+
 from time import sleep
 import subprocess
 import requests
@@ -36,19 +39,12 @@ class GoogleToken:
 
 
 def get_header(bam_path, output_directory, token):
-    header_path = os.path.join(output_directory, "header.sam")
+    # There is actually a small chance that the token will expire in the time between checking and downloading...
+    token.update_environment()
+    header = AlignmentFile(bam_path).header
 
-    with open(header_path,'w') as f:
-        # There is actually a small chance that the token will expire in the time between checking and downloading...
-        token.update_environment()
-
-        result = subprocess.run(["samtools", "view", "-H", bam_path], stdout=subprocess.PIPE, check=True)
-        f.write(result.stdout.decode("utf-8"))
-
-    header_only = AlignmentFile(header_path)
-
-    for r in header_only.references:
-        l = header_only.get_reference_length(r)
+    for r in header.references:
+        l = header.get_reference_length(r)
         print(l)
 
     return

@@ -1,21 +1,26 @@
 version 1.0
 
-task split_bam {
+
+task bam_to_fasta_sampler {
   input {
     File input_bam
-    Int split_length
+    Int chunk_size
+    Int n_samples
   }
   command {
+
   }
   output {
     Array[File] output_bams = glob("*.bam")
   }
 }
 
-workflow bam_splitter {
+
+workflow test_bam_to_fasta_sampler {
   input {
-    File input_bam
-    Int split_length
+    String input_bam
+    Int chunk_size
+    Int n_samples
   }
   call split_bam {
     input:

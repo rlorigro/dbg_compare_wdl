@@ -1,10 +1,6 @@
 from pysam import AlignmentFile,AlignmentHeader
-import pysam
+from modules.Authenticator import GoogleToken
 
-import google.auth.transport.requests
-import google.auth
-
-from time import sleep
 import subprocess
 import requests
 import argparse
@@ -13,60 +9,12 @@ import sys
 import os
 
 
-# Needs pip library `requests`
-class GoogleToken:
-    def __init__(self):
-        self.creds, self.project = google.auth.default()
-        self.auth_req = google.auth.transport.requests.Request()
-
-    def get_token(self):
-        if (not self.creds.valid) or self.creds.expired:
-            print("Refreshing token...")
-            self.creds.refresh(self.auth_req)
-
-        return self.creds.token
-
-    def update_environment(self):
-        if (not self.creds.valid) or self.creds.expired:
-            print("Updating environment token...")
-            self.creds.refresh(self.auth_req)
-
-            print(self.creds.token)
-
-            os.environ["GCS_OAUTH_TOKEN"] = self.creds.token
-
-    def test_expiration(self):
-        for i in range(15):
-            print(i)
-            self.update_environment()
-            sleep(60*10)
-
-
 def get_remote_header(bam_path, output_directory, token):
     # There is a small chance that this will fail if the token expires between updating and downloading...
     token.update_environment()
     header = AlignmentFile(bam_path,'r').header
 
     return header
-
-
-# def get_remote_region(bam_path, contig, start, stop, output_directory, token):
-#     output_filename = "%s_%d-%d.bam" % (contig, start, stop)
-#     output_path = os.path.join(output_directory,output_filename)
-#
-#     # There is a small chance that this will fail if the token expires between updating and downloading...
-#     token.update_environment()
-#     # region = pysam.view(bam_path,"-h","-F4","%s:%d-%d"%(contig,start,stop))
-#
-#     alignment_file = AlignmentFile(bam_path)
-#     region = alignment_file.fetch(contig=contig,start=start,stop=stop)
-#
-#     with open(output_path, 'wb') as file:
-#         for item in region:
-#             print(vars(item))
-#             # file.write(item)
-#
-#     return region
 
 
 # Requires samtools installed!
@@ -143,7 +91,7 @@ if __name__ == "__main__":
         "-i",
         required=True,
         type=parse_comma_separated_string,
-        help="Input BAM to be chunked"
+        help="Input BAMs to be chunked (comma separated list)"
     )
 
     parser.add_argument(

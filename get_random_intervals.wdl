@@ -14,6 +14,9 @@ task sample_intervals {
   output {
     File output_bed = "~{output_directory + '/intervals.bed'}"
   }
+  runtime {
+    docker: 'us-central1-docker.pkg.dev/broad-dsp-lrma/dbg-compare/dbg-compare:latest'
+  }
 }
 
 

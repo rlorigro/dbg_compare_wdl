@@ -9,7 +9,7 @@ task sample_intervals {
     Int n_samples
   }
   command {
-    get_random_intervals -i ~{input_bam} -o ~{output_directory} -c ~{chunk_size} -n ~{n_samples}
+    python3 /software/get_random_intervals.py -i ~{input_bam} -o ~{output_directory} -c ~{chunk_size} -n ~{n_samples}
   }
   output {
     File output_bed = "~{output_directory + '/intervals.bed'}"

@@ -1,0 +1,18 @@
+version: 1.2
+workflows:
+  - name: get_random_intervals
+    subclass: WDL
+    description: Given a BAM, use the header information and some parameters to generate random BED intervals
+    primaryDescriptorPath: get_random_intervals.wdl
+    testParameterFiles:
+    authors:
+      - name: Ryan Lorig-Roach
+        email: rlorigro@broadinstitute.org
+  - name: merge_samples_by_intervals
+    subclass: WDL
+    description: Given a set of intervals and a set of BAM files, create a merged (across BAMS) output for each interval
+    primaryDescriptorPath: merge_samples_by_intervals.wdl
+    testParameterFiles:
+    authors:
+      - name: Ryan Lorig-Roach
+        email: rlorigro@broadinstitute.org

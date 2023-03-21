@@ -14,6 +14,11 @@ task split_bed_file {
   output {
     Array[File] output_beds = glob("chunk_*.bed")
   }
+
+  runtime {
+    docker: 'ubuntu:22.04'
+  }
+
 }
 
 
@@ -26,7 +31,7 @@ task merge_samples {
 
   # Run python script which will use samtools to merge/fetch appropriate samples/intervals and convert to FASTAs
   command {
-    python3 software/merge_bams_by_interval.py -c ~{n_cores} --bed ~{input_bed} --bams ${sep=',' bam_paths} -o output
+    python3 /software/merge_bams_by_interval.py -c ~{n_cores} --bed ~{input_bed} --bams ${sep=',' bam_paths} -o output
   }
 
   output {

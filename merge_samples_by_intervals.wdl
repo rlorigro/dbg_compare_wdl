@@ -26,12 +26,15 @@ task merge_samples {
   input {
     Array[String] bam_paths
     File input_bed
-    Int n_cores
+    Int? n_threads = 8
+    Int? mem_size_gb = 16
+    Int? disk_size_gb = 500
+    Boolean? preemptible = true
   }
 
   # Run python script which will use samtools to merge/fetch appropriate samples/intervals and convert to FASTAs
   command {
-    python3 /software/merge_bams_by_interval.py -c ~{n_cores} --bed ~{input_bed} --bams ${sep=',' bam_paths} -o output
+    python3 /software/merge_bams_by_interval.py -c ~{n_threads} --bed ~{input_bed} --bams ${sep=',' bam_paths} -o output
   }
 
   output {
@@ -40,6 +43,10 @@ task merge_samples {
 
   runtime {
     docker: 'us-central1-docker.pkg.dev/broad-dsp-lrma/dbg-compare/dbg-compare:latest'
+    disks: "local-disk " + disk_size_gb + " SSD"
+    memory: mem_size_gb + " GB"
+    cpu: n_threads
+    preemptible: preemptible
   }
 }
 
@@ -49,7 +56,7 @@ workflow merge_samples_by_intervals {
     Array[String] bam_paths
     File input_bed
     Int max_concurrency
-    Int n_cores_per_worker
+    Int n_threads_per_worker
   }
 
   call split_bed_file {
@@ -64,7 +71,7 @@ workflow merge_samples_by_intervals {
       input:
         bam_paths = bam_paths,
         input_bed = x,
-        n_cores = n_cores_per_worker
+        n_threads = n_threads_per_worker
     }
   }
 

@@ -30,7 +30,7 @@ task merge_samples {
   }
 
   output {
-    Array[File] output_fastas = glob("output/*.fasta")
+    Array[File] output_tarballs = glob("output/*.tar.gz")
   }
 
   runtime {
@@ -64,6 +64,6 @@ workflow merge_samples_by_intervals {
   }
 
   output {
-    Array[File] output_fastas = flatten(scattered_merge_samples.output_fastas)
+    Array[File] output_tarballs = flatten(scattered_merge_samples.output_tarballs)
   }
 }

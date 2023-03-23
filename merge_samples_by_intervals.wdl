@@ -29,7 +29,7 @@ task merge_samples {
     Int? n_threads = 8
     Int? mem_size_gb = 16
     Int? disk_size_gb = 500
-    Boolean? preemptible = true
+    Int? preemptible = 1
   }
 
   # Run python script which will use samtools to merge/fetch appropriate samples/intervals and convert to FASTAs

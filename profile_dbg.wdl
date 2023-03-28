@@ -57,11 +57,11 @@ task chunk_array {
 
 workflow profile_dbg {
   input {
-    Array[String] files
-    String tool_name
+    Array[String] tarball_paths
+    String dbg_name
     Int? max_concurrency = 1
     Int? k = 31
-    Int? n_threads = 8
+    Int? n_cores_per_worker = 8
     Int? mem_size_gb = 16
     Int? disk_size_gb = 500
     Int? preemptible = 1
@@ -69,7 +69,7 @@ workflow profile_dbg {
 
   call chunk_array {
     input:
-      array = files,
+      array = tarball_paths,
       chunk_size = max_concurrency
   }
 
@@ -78,9 +78,9 @@ workflow profile_dbg {
     call profile as scattered_profile {
       input:
         files = read_lines(x),
-        tool_name = tool_name,
+        tool_name = dbg_name,
         k = k,
-        n_threads = n_threads,
+        n_threads = n_cores_per_worker,
         mem_size_gb = mem_size_gb,
         disk_size_gb = disk_size_gb,
         preemptible = preemptible

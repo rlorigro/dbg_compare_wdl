@@ -16,7 +16,7 @@ task profile {
     python3 /software/profile.py \
     --tars ~{sep=',' files} \
     -g ~{tool_name} \
-    -k ~{k}
+    -k ~{k} \
     -c ~{n_threads} \
     -o output
   }
@@ -26,7 +26,7 @@ task profile {
   }
 
   runtime {
-    docker: 'us-central1-docker.pkg.dev/broad-dsp-lrma/dbg-compare/dbg-compare:latest'
+    docker: 'us-central1-docker.pkg.dev/broad-dsp-lrma/dbg-compare/bifrost:latest'
     disks: "local-disk " + disk_size_gb + " SSD"
     memory: mem_size_gb + " GB"
     cpu: n_threads
@@ -38,11 +38,11 @@ task profile {
 task chunk_array {
     input {
     Array[String] array
-    Int chunk_size
+    Int n_chunks
   }
 
   command {
-    split --additional-suffix .txt -n l/~{chunk_size} ${write_lines(array)} chunk_
+    split --additional-suffix .txt -n l/~{n_chunks} ${write_lines(array)} chunk_
   }
 
   output {
@@ -59,7 +59,7 @@ workflow profile_dbg {
   input {
     Array[String] tarball_paths
     String dbg_name
-    Int? max_concurrency = 1
+    Int max_concurrency = 1
     Int? k = 31
     Int? n_cores_per_worker = 8
     Int? mem_size_gb = 16
@@ -70,7 +70,7 @@ workflow profile_dbg {
   call chunk_array {
     input:
       array = tarball_paths,
-      chunk_size = max_concurrency
+      n_chunks = max_concurrency
   }
 
   # Now that the input Array has been split into `max_concurrency` chunks, scatter them

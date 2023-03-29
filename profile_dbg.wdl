@@ -26,7 +26,7 @@ task profile {
   }
 
   runtime {
-    docker: 'us-central1-docker.pkg.dev/broad-dsp-lrma/dbg-compare/bifrost:latest'
+    docker: "us-central1-docker.pkg.dev/broad-dsp-lrma/dbg-compare/" + tool_name + ":latest"
     disks: "local-disk " + disk_size_gb + " SSD"
     memory: mem_size_gb + " GB"
     cpu: n_threads

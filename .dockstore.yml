@@ -16,3 +16,11 @@ workflows:
     authors:
       - name: Ryan Lorig-Roach
         email: rlorigro@broadinstitute.org
+  - name: profile_dbg
+    subclass: WDL
+    description: Given a set of tarballs containing Fastas and coverage Tsv, create an equivalently sized set of outputs and resource logs for each tool specified
+    primaryDescriptorPath: profile_dbg.wdl
+    testParameterFiles:
+    authors:
+      - name: Ryan Lorig-Roach
+        email: rlorigro@broadinstitute.org

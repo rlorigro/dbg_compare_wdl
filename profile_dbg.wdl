@@ -67,7 +67,6 @@ workflow profile_dbg {
     Int? mem_size_gb = 16
     Int? disk_size_gb = 500
     Int? preemptible = 1
-    Int? timeout_sec = 86400
   }
 
   call chunk_array {

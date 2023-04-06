@@ -10,6 +10,7 @@ task profile {
     Int? mem_size_gb = 16
     Int? disk_size_gb = 500
     Int? preemptible = 1
+    Int? n_samples = 0
     Int? timeout_sec = 86400
   }
 
@@ -19,6 +20,7 @@ task profile {
     -g ~{tool_name} \
     -k ~{k} \
     -c ~{n_threads} \
+    -n ~{n_samples} \
     --timeout ~{timeout_sec} \
     -o output
   }

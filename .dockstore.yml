@@ -24,3 +24,11 @@ workflows:
     authors:
       - name: Ryan Lorig-Roach
         email: rlorigro@broadinstitute.org
+  - name: convert_ggcat_fasta_to_gfa.wdl
+    subclass: WDL
+    description: Given a set of fastas produced by ggcat, using tags with the BCALM link format, convert to a GFAs
+    primaryDescriptorPath: convert_ggcat_fasta_to_gfa.wdl
+    testParameterFiles:
+    authors:
+      - name: Ryan Lorig-Roach
+        email: rlorigro@broadinstitute.org

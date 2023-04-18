@@ -53,7 +53,6 @@ task chunk_array {
 workflow convert_ggcat_fastas_to_gfas {
   input {
     Array[String] tarball_paths
-    String dbg_name
     Int max_concurrency = 2
     Int? n_cores_per_worker = 2
     Int? mem_size_gb = 16

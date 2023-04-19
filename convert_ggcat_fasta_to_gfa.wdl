@@ -4,6 +4,7 @@ version 1.0
 task ggcat_fasta_to_gfa {
   input {
     Array[File] files
+    Boolean? no_sequence = false
     Int? n_threads = 2
     Int? mem_size_gb = 16
     Int? disk_size_gb = 256
@@ -12,12 +13,13 @@ task ggcat_fasta_to_gfa {
 
   command {
     for x in ~{sep=' ' files}; do
-        scripts/convert_ggcat_fasta_to_gfa.py -i $x
+      tar -xvzf $x
+      python3 ~/code/dbg_compare/scripts/convert_ggcat_fasta_to_gfa.py -i $(basename $x .tar.gz)/ggcat.fasta -o ./$(basename $x .tar.gz).gfa --no_sequence ~{no_sequence}
     done;
   }
 
   output {
-    Array[File] output_gfas = glob("output/*.gfa")
+    Array[File] output_gfas = glob("*.gfa")
   }
 
   runtime {

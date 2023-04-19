@@ -14,7 +14,7 @@ task ggcat_fasta_to_gfa {
   command {
     for x in ~{sep=' ' files}; do
       tar -xvzf $x
-      python3 ~/code/dbg_compare/scripts/convert_ggcat_fasta_to_gfa.py -i $(basename $x .tar.gz)/ggcat.fasta -o ./$(basename $x .tar.gz).gfa --no_sequence ~{no_sequence}
+      python3 /software/convert_ggcat_fasta_to_gfa.py -i $(basename $x .tar.gz)/ggcat.fasta -o ./$(basename $x .tar.gz).gfa --no_sequence ~{no_sequence}
     done;
   }
 

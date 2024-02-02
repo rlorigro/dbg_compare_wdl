@@ -3,7 +3,7 @@ workflows:
   - name: get_random_intervals
     subclass: WDL
     description: Given a BAM, use the header information and some parameters to generate random BED intervals
-    primaryDescriptorPath: get_random_intervals.wdl
+    primaryDescriptorPath: /get_random_intervals.wdl
     testParameterFiles:
     authors:
       - name: Ryan Lorig-Roach
@@ -11,7 +11,7 @@ workflows:
   - name: merge_samples_by_intervals
     subclass: WDL
     description: Given a set of intervals and a set of BAM files, create a merged (across BAMS) output for each interval
-    primaryDescriptorPath: merge_samples_by_intervals.wdl
+    primaryDescriptorPath: /merge_samples_by_intervals.wdl
     testParameterFiles:
     authors:
       - name: Ryan Lorig-Roach
@@ -19,7 +19,7 @@ workflows:
   - name: profile_dbg
     subclass: WDL
     description: Given a set of tarballs containing Fastas and coverage Tsv, create an equivalently sized set of outputs and resource logs for each tool specified
-    primaryDescriptorPath: profile_dbg.wdl
+    primaryDescriptorPath: /profile_dbg.wdl
     testParameterFiles:
     authors:
       - name: Ryan Lorig-Roach
@@ -27,7 +27,7 @@ workflows:
   - name: convert_ggcat_fasta_to_gfa
     subclass: WDL
     description: Given a set of fastas produced by ggcat, using tags with the BCALM link format, convert to a GFAs
-    primaryDescriptorPath: convert_ggcat_fasta_to_gfa.wdl
+    primaryDescriptorPath: /convert_ggcat_fasta_to_gfa.wdl
     testParameterFiles:
     authors:
       - name: Ryan Lorig-Roach
